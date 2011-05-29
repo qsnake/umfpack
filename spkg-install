@@ -1,0 +1,27 @@
+#! /usr/bin/env sh
+
+if [ "$SPKG_LOCAL" = "" ]; then
+   echo "SPKG_LOCAL undefined ... exiting";
+   echo "Maybe run 'qsnake --shell'?"
+   exit 1
+fi
+
+set -e
+
+cd UFconfig
+make
+
+cd ../UMFPACK
+make
+
+cd ../metis-4.0
+cp *.a "$SAGE_LOCAL/lib"
+cp Lib/*.h "$SAGE_LOCAL/include"
+
+cd ../UFconfig; make install
+cd ../AMD     ; make install
+cd ../CAMD    ; make install
+cd ../CCOLAMD ; make install
+cd ../COLAMD  ; make install
+cd ../CHOLMOD ; make install
+cd ../UMFPACK ; make install
